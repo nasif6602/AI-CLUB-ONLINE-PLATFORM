@@ -1611,6 +1611,7 @@ html.dark .mobile-header {
   align-items: center;
   justify-content: center;
   padding: 20px;
+   overflow-y:auto;
   animation: fadeIn 0.2s ease both;
 }
 
