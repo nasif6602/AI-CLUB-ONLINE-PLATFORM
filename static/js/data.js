@@ -259,7 +259,7 @@ function renderResources() {
     document.getElementById('resources-grid').innerHTML = filtered.map(r => `<div class="card" style="display:flex; flex-direction:column; gap:14px; padding:18px; font-family:system-ui,-apple-system,sans-serif;">
     <span class="badge badge-green" style="align-self:flex-start; font-size:0.7rem; padding:3px 10px; border-radius:999px; background:#10b981; color:#ffffff; font-weight:600; letter-spacing:0.3px; text-transform:uppercase;">${r.category||'General'}</span>
     <h4 style="margin:0; font-size:1.05rem; font-weight:600; line-height:1.4;">${r.title}</h4>
-    <p style="margin:0; font-size:0.875rem;  line-height:1.6;">${r.description?.substring(0,120)}</p>
+    <p style="margin:0; font-size:0.875rem;  line-height:1.6;">${r.description}</p>
     <a href="${r.link}" target="_blank" class="btn btn-sm btn-primary" >🔗 Open</a>
     ${(currentUser?.id === r.uploaded_by || userProfile?.role === 'admin') ? `
                 <button class="btn btn-ghost btn-sm" style="position:absolute;top:12px;right:12px;" onclick="deleteResource('${r.id}')" title="Delete resource">🗑️</button>
@@ -279,7 +279,7 @@ function renderProjects() {
        
 <div class="card" style="display:flex; flex-direction:column; gap:12px; padding:18px;  font-family:system-ui,-apple-system,sans-serif;">
     <h4 style="margin:0; font-size:1.1rem; font-weight:600; color:var(--text-primary, #0f172a); line-height:1.4;">🚀 ${p.title}</h4>
-    <p style="margin:0; font-size:0.875rem; color:var(--text-secondary, #475569); line-height:1.6;">${p.description?.substring(0,120)}</p>
+    <p style="margin:0; font-size:0.875rem; color:var(--text-secondary, #475569); line-height:1.6;">${p.description}</p>
     <div style="display:flex; flex-wrap:wrap; gap:6px;">${(p.technologies||[]).map(t=>`<span class="tech-tag" style="font-size:0.7rem; padding:3px 8px; background:var(--tag-bg, #f1f5f9); color:var(--tag-text, #475569); border-radius:6px; font-weight:500; border:1px solid var(--border-color, #e2e8f0);">${t}</span>`).join('')}</div>
     <p style="margin:0; font-size:0.85rem; color:var(--text-secondary, #475569);">👥 ${p.team_members||'Solo'}</p>
     <div style="display:flex; gap:8px; flex-wrap:wrap;">${p.github_link?`<a href="${p.github_link}" class="btn btn-sm btn-outline">GitHub</a>`:''}${p.demo_link?`<a href="${p.demo_link}" class="btn btn-sm btn-primary">Demo</a>`:''}</div>
@@ -605,7 +605,7 @@ function renderProfileBlogs() {
     container.innerHTML = userBlogs.map(blog => `
         <div class="card" style="cursor:pointer;margin-bottom:12px;" onclick="viewBlog('${blog.id}')" style="display:flex; align-items:stretch; gap:16px; padding:18px; font-family:system-ui,-apple-system,sans-serif; cursor:pointer;">
             <h4 style="margin:0; font-size:1.15rem; font-weight:600; color:var(--text-primary, #0f172a); line-height:1.4;">${blog.title}</h4>
-            <p class="blog-excerpt" style="margin:0; font-size:0.875rem; color:var(--text-secondary, #475569); line-height:1.6; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">${blog.excerpt || blog.content?.substring(0,120)}...</p>
+            <p class="blog-excerpt" style="margin:0; font-size:0.875rem; color:var(--text-secondary, #475569); line-height:1.6; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">${blog.excerpt || blog.content?.substring(0,40)}...</p>
             <div class="blog-meta" style="display:flex; flex-wrap:wrap; gap:12px; margin-top:auto; padding-top:8px; border-top:1px solid var(--border-color, #e2e8f0); font-size:0.75rem; color:var(--text-muted, #64748b);">
             <span style="display:inline-flex; align-items:center; gap:18px;">
                 <span style="display:inline-flex; align-items:center; gap:18px;">❤️ ${blog.likes || 0}</span>
@@ -626,7 +626,7 @@ function renderProfileResources() {
     container.innerHTML = userResources.map(r => `<div class="card" style="display:flex; flex-direction:column; gap:14px; padding:18px; font-family:system-ui,-apple-system,sans-serif;">
     <span class="badge badge-green" style="align-self:flex-start; font-size:0.7rem; padding:3px 10px; border-radius:999px; background:#10b981; color:#ffffff; font-weight:600; letter-spacing:0.3px; text-transform:uppercase;">${r.category||'General'}</span>
     <h4 style="margin:0; font-size:1.05rem; font-weight:600; line-height:1.4;">${r.title}</h4>
-    <p style="margin:0; font-size:0.875rem;  line-height:1.6;">${r.description?.substring(0,120)}</p>
+    <p style="margin:0; font-size:0.875rem;  line-height:1.6;">${r.description}</p>
     <a href="${r.link}" target="_blank" class="btn btn-sm btn-primary" >🔗 Open</a>
     ${(currentUser?.id === r.uploaded_by || userProfile?.role === 'admin') ? `
                 <button class="btn btn-ghost btn-sm" style="position:absolute;top:12px;right:12px;" onclick="deleteResource('${r.id}')" title="Delete resource">🗑️</button>
@@ -644,7 +644,7 @@ function renderProfileProjects() {
     container.innerHTML = userProjects.map(p => `
 <div class="card" style="display:flex; flex-direction:column; gap:12px; padding:18px;  font-family:system-ui,-apple-system,sans-serif;">
     <h4 style="margin:0; font-size:1.1rem; font-weight:600; color:var(--text-primary, #0f172a); line-height:1.4;">🚀 ${p.title}</h4>
-    <p style="margin:0; font-size:0.875rem; color:var(--text-secondary, #475569); line-height:1.6;">${p.description?.substring(0,120)}</p>
+    <p style="margin:0; font-size:0.875rem; color:var(--text-secondary, #475569); line-height:1.6;">${p.description}</p>
     <div style="display:flex; flex-wrap:wrap; gap:6px;">${(p.technologies||[]).map(t=>`<span class="tech-tag" style="font-size:0.7rem; padding:3px 8px; background:var(--tag-bg, #f1f5f9); color:var(--tag-text, #475569); border-radius:6px; font-weight:500; border:1px solid var(--border-color, #e2e8f0);">${t}</span>`).join('')}</div>
     <p style="margin:0; font-size:0.85rem; color:var(--text-secondary, #475569);">👥 ${p.team_members||'Solo'}</p>
     <div style="display:flex; gap:8px; flex-wrap:wrap;">${p.github_link?`<a href="${p.github_link}" class="btn btn-sm btn-outline">GitHub</a>`:''}${p.demo_link?`<a href="${p.demo_link}" class="btn btn-sm btn-primary">Demo</a>`:''}</div>
