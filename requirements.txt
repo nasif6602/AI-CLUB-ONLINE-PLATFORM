@@ -7,5 +7,6 @@ pyjwt[crypto]
 requests
 cryptography
 verification
+gunicorn>=21.2.0
 
 
