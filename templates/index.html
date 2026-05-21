@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Club - College Community Platform</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+
+    <!-- Loading Screen -->
+    <!-- Loading Screen -->
+<div id="loading-screen">
+  <div class="loading-skeleton-container">
+
+    <!-- Fake Sidebar (desktop only) -->
+    <div class="loading-sidebar">
+      <!-- Logo -->
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:28px;">
+        <div class="skeleton" style="width:42px;height:42px;border-radius:10px;flex-shrink:0;"></div>
+        <div class="skeleton" style="width:80px;height:18px;border-radius:6px;"></div>
+      </div>
+      <!-- Nav items -->
+      <div class="skeleton skel-nav-item"></div>
+      <div class="skeleton skel-nav-item" style="width:65%;"></div>
+      <div class="skeleton skel-nav-item" style="width:55%;"></div>
+      <div class="skeleton skel-nav-item" style="width:72%;"></div>
+      <div class="skeleton skel-nav-item" style="width:80%;"></div>
+      <div class="skeleton skel-nav-item" style="width:60%;"></div>
+      <div class="skeleton skel-nav-item" style="width:50%;"></div>
+      <div class="skeleton skel-nav-item" style="width:68%;"></div>
+      <div class="skeleton skel-nav-item" style="width:75%;"></div>
+      <!-- Avatar at bottom -->
+      <div style="position:absolute;bottom:24px;left:20px;display:flex;align-items:center;gap:10px;">
+        <div class="skeleton" style="width:38px;height:38px;border-radius:50%;flex-shrink:0;"></div>
+        <div>
+          <div class="skeleton" style="width:70px;height:12px;border-radius:4px;margin-bottom:6px;"></div>
+          <div class="skeleton" style="width:48px;height:10px;border-radius:4px;"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Fake Main Content -->
+    <div class="loading-main">
+
+      <!-- Mobile topbar (mobile only) -->
+      <div class="loading-mobile-topbar">
+        <div class="skeleton" style="width:28px;height:20px;border-radius:4px;"></div>
+        <div class="skeleton" style="width:90px;height:20px;border-radius:6px;"></div>
+        <div style="width:28px;"></div>
+      </div>
+
+      <!-- Hero welcome banner -->
+      <div class="skeleton skel-hero"></div>
+
+      <!-- Stats strip — 4 pills -->
+      <div class="loading-stat-grid">
+        <div class="skeleton skel-stat-pill"></div>
+        <div class="skeleton skel-stat-pill"></div>
+        <div class="skeleton skel-stat-pill"></div>
+        <div class="skeleton skel-stat-pill"></div>
+      </div>
+
+      <!-- Announcements + Events row -->
+      <div class="loading-content-grid">
+        <div class="skeleton" style="height:160px;border-radius:16px;"></div>
+        <div class="skeleton" style="height:160px;border-radius:16px;"></div>
+      </div>
+
+      <!-- Today's Blogs strip -->
+      <div class="skeleton skel-section-card" style="margin-bottom:16px;">
+        <div style="display:flex;gap:12px;padding:16px 20px;">
+          <div class="skeleton skel-story-bubble"></div>
+          <div class="skeleton skel-story-bubble"></div>
+          <div class="skeleton skel-story-bubble"></div>
+          <div class="skeleton skel-story-bubble"></div>
+        </div>
+      </div>
+
+      <!-- Recent blog posts -->
+      <div class="skeleton skel-section-card">
+        <div class="skel-blog-row">
+          <div class="skeleton skel-blog-thumb"></div>
+          <div style="flex:1;">
+            <div class="skeleton" style="height:13px;width:55%;border-radius:5px;margin-bottom:8px;"></div>
+            <div class="skeleton" style="height:11px;width:38%;border-radius:5px;"></div>
+          </div>
+        </div>
+        <div class="skel-blog-row">
+          <div class="skeleton skel-blog-thumb"></div>
+          <div style="flex:1;">
+            <div class="skeleton" style="height:13px;width:45%;border-radius:5px;margin-bottom:8px;"></div>
+            <div class="skeleton" style="height:11px;width:32%;border-radius:5px;"></div>
+          </div>
+        </div>
+        <div class="skel-blog-row">
+          <div class="skeleton skel-blog-thumb"></div>
+          <div style="flex:1;">
+            <div class="skeleton" style="height:13px;width:60%;border-radius:5px;margin-bottom:8px;"></div>
+            <div class="skeleton" style="height:11px;width:35%;border-radius:5px;"></div>
+          </div>
+        </div>
+        <div class="skel-blog-row" style="border:none;">
+          <div class="skeleton skel-blog-thumb"></div>
+          <div style="flex:1;">
+            <div class="skeleton" style="height:13px;width:40%;border-radius:5px;margin-bottom:8px;"></div>
+            <div class="skeleton" style="height:11px;width:30%;border-radius:5px;"></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Mobile bottom nav skeleton -->
+  <div class="loading-mobile-nav">
+    <div class="skel-nav-tab"><div class="skeleton skel-nav-icon"></div><div class="skeleton skel-nav-label"></div></div>
+    <div class="skel-nav-tab"><div class="skeleton skel-nav-icon"></div><div class="skeleton skel-nav-label"></div></div>
+    <div class="skel-nav-tab"><div class="skeleton skel-nav-icon"></div><div class="skeleton skel-nav-label"></div></div>
+    <div class="skel-nav-tab"><div class="skeleton skel-nav-icon"></div><div class="skeleton skel-nav-label"></div></div>
+    <div class="skel-nav-tab"><div class="skeleton skel-nav-icon"></div><div class="skeleton skel-nav-label"></div></div>
+    <div class="skel-nav-tab"><div class="skeleton skel-nav-icon"></div><div class="skeleton skel-nav-label"></div></div>
+  </div>
+</div>
+    <!-- Toast Container -->
+    <div id="toast-container"></div>
+
+    <!-- Sidebar Overlay -->
+    <div class="sidebar-overlay" id="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+    <!-- ═══════════════════════════════════════════════
+         APP CONTAINER
+    ════════════════════════════════════════════════ -->
+    <div id="app-container" style="display:none;">
+
+        <!-- ── Sidebar ── -->
+        <aside class="sidebar" id="sidebar">
+          <button class="sidebar-close-btn" onclick="toggleSidebar()" aria-label="Close menu">✕</button>
+            <div class="sidebar-header">
+                <div class="sidebar-logo">AI</div>
+                <span class="sidebar-title">AI Club</span>
+            </div>
+
+            <nav class="sidebar-nav" id="sidebar-nav">
+                <a href="#dashboard"     data-page="dashboard"     class="active"><span class="nav-icon">📊</span> Dashboard</a>
+                <a href="#members"       data-page="members"               ><span class="nav-icon">👥</span> Members</a>
+                <a href="#events"        data-page="events"                ><span class="nav-icon">📅</span> Events</a>
+                <a href="#resources"     data-page="resources"             ><span class="nav-icon">📚</span> Resources</a>
+                <a href="#projects"      data-page="projects"              ><span class="nav-icon">🚀</span> Projects</a>
+                <a href="#announcements" data-page="announcements"         ><span class="nav-icon">📢</span> Announcements</a>
+                <a href="#blogs"         data-page="blogs"                 ><span class="nav-icon">📝</span> Blog</a>
+                <a href="/forum"><span class="nav-icon">💬</span> Forum</a>
+                <a href="#profile"       data-page="profile"               ><span class="nav-icon">👤</span> Profile</a>
+<a href="/membership">
+  <span class="nav-icon">💳</span> Membership
+</a>
+<a href="/help"><span class="nav-icon">❓</span> Help</a>
+<a href="/admin-portal" id="admin-portal-link" style="display:none;">
+  <span class="nav-icon">⚙️</span> Admin
+</a>
+<!-- Member‑Only Section (hidden by default, shown only to official members) -->
+<div id="member-exclusive-links" style="display:none;">
+    <div style="padding:8px 14px;font-size:0.75rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.05em;">🌟 Member Exclusive</div>
+    <a href="/member-events"><span class="nav-icon">📅</span> Member Events</a>
+    <a href="/member-resources"><span class="nav-icon">📚</span> Member Resources</a>
+    <a href="/member-directory"><span class="nav-icon">👥</span> Member Directory</a>
+</div>
+                <a href="#admin"         data-page="admin" id="admin-nav-link" style="display:none;"><span class="nav-icon">⚙️</span> Admin Panel</a>
+            </nav>
+
+            <div class="sidebar-footer">
+                <div class="sidebar-user" onclick="navigateTo('profile')">
+                    <div class="sidebar-avatar" id="sidebar-avatar">?</div>
+                    <div class="sidebar-user-info">
+                        <div class="sidebar-user-name" id="sidebar-username">User</div>
+                        <div class="sidebar-user-role" id="sidebar-userrole">Member</div>
+                    </div>
+                </div>
+                <button class="btn btn-ghost btn-sm" style="width:100%;margin-top:6px;" onclick="handleLogout()">🚪 Logout</button>
+                <button class="btn btn-ghost btn-sm" style="width:100%;margin-top:6px;" onclick="toggleTheme()" id="theme-toggle-btn">🌙 Dark Mode</button>
+            </div>
+        </aside>
+
+        <!-- ── Mobile Header ── -->
+        <div class="mobile-header" id="mobile-header">
+            <button class="hamburger" onclick="toggleSidebar()">☰</button>
+            <span style="font-weight:800;font-family:var(--font-display);letter-spacing:-0.02em;">AI Club</span>
+            <div style="width:36px;"></div>
+        </div>
+
+        <!-- ═══════════════════════════════════════════════
+             MAIN CONTENT
+        ════════════════════════════════════════════════ -->
+        <main class="main-content" id="main-content">
+
+            <!-- ─────────────────────────────────
+                 DASHBOARD PAGE
+            ───────────────────────────────── -->
+            <section class="page active" id="page-dashboard">
+
+                <!-- Hero Welcome Banner -->
+                <div class="section-header">
+                    <div>
+                        <h1 class="section-title">👋 Welcome back, <span id="dash-username">User</span>!</h1>
+                        <p class="section-subtitle">Here's what's happening in your AI Club</p>
+                    </div>
+                    <button class="btn btn-primary" onclick="navigateTo('events')">📅 View Events</button>
+                </div>
+
+                <!-- Stats Strip (replaces the old stat cards) -->
+                <div id="dash-stats-strip">
+                    <div class="stat-pill" style="--pill-accent:var(--primary);--pill-bg:rgba(108,99,255,0.12);">
+                        <div class="stat-pill-icon">👥</div>
+                        <div>
+                            <div class="stat-pill-value" id="stat-members">0</div>
+                            <div class="stat-pill-label">Members</div>
+                        </div>
+                    </div>
+                    <div class="stat-pill" style="--pill-accent:var(--secondary);--pill-bg:rgba(0,212,255,0.10);">
+                        <div class="stat-pill-icon">📅</div>
+                        <div>
+                            <div class="stat-pill-value" id="stat-events">0</div>
+                            <div class="stat-pill-label">Events</div>
+                        </div>
+                    </div>
+                    <div class="stat-pill" style="--pill-accent:var(--accent);--pill-bg:rgba(255,101,132,0.10);">
+                        <div class="stat-pill-icon">🚀</div>
+                        <div>
+                            <div class="stat-pill-value" id="stat-projects">0</div>
+                            <div class="stat-pill-label">Projects</div>
+                        </div>
+                    </div>
+                    <div class="stat-pill" style="--pill-accent:var(--success);--pill-bg:rgba(34,197,94,0.10);">
+                        <div class="stat-pill-icon">📚</div>
+                        <div>
+                            <div class="stat-pill-value" id="stat-resources">0</div>
+                            <div class="stat-pill-label">Resources</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Hidden original grid — IDs preserved for JS compatibility -->
+                <div class="grid grid-4" style="display:none !important;">
+                    <div class="card stat-card"><div class="stat-value" id="stat-members-hidden">0</div><div class="stat-label">Members</div></div>
+                    <div class="card stat-card"><div class="stat-value" id="stat-events-hidden">0</div><div class="stat-label">Events</div></div>
+                    <div class="card stat-card"><div class="stat-value" id="stat-projects-hidden">0</div><div class="stat-label">Projects</div></div>
+                    <div class="card stat-card"><div class="stat-value" id="stat-resources-hidden">0</div><div class="stat-label">Resources</div></div>
+                </div>
+
+                <!-- Announcements & Events -->
+                <div class="grid grid-2" style="margin-bottom:24px;">
+                    <div class="card">
+                        <h3>📢 Announcements</h3>
+                        <div id="dash-announcements"></div>
+                    </div>
+                    <div class="card">
+                        <h3>📅 Upcoming Events</h3>
+                        <div id="dash-events"></div>
+                    </div>
+                </div>
+
+                <!-- Today's Blogs — Stories-style strip -->
+                <div class="card" style="margin-bottom:24px;">
+                    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
+                        <h3 style="font-family:var(--font-display);font-weight:700;margin:0;">📝 Today's Blogs</h3>
+                        <span id="today-date" style="font-size:0.82rem;color:var(--text-muted);"></span>
+                    </div>
+                    <!-- Stories row -->
+                    <div id="today-blogs-stories" class="blog-stories-strip"></div>
+                    <!-- Card row -->
+                    <div id="today-blogs-feed" style="display:flex;gap:16px;overflow-x:auto;padding-bottom:8px;scrollbar-width:none;"></div>
+                </div>
+
+                <!-- Recent Blog Posts -->
+                <div class="card">
+                    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
+                        <h3 style="font-family:var(--font-display);font-weight:700;margin:0;">📰 Recent Blog Posts</h3>
+                        <button class="btn btn-sm btn-outline" onclick="navigateTo('blogs')">View All →</button>
+                    </div>
+                    <div id="dash-blogs-list"></div>
+                </div>
+
+            </section>
+
+            <!-- ─────────────────────────────────
+                 MEMBERS PAGE
+            ───────────────────────────────── -->
+            <section class="page" id="page-members">
+                <div class="section-header">
+                    <div>
+                        <h1 class="section-title">👥 Members</h1>
+                        <p class="section-subtitle">Club community</p>
+                    </div>
+                    <div class="search-bar">
+                        <span class="search-icon">🔍</span>
+                        <input type="text" id="member-search" oninput="renderMembers()" placeholder="Search members...">
+                    </div>
+                </div>
+                <div class="grid grid-auto" id="members-grid"></div>
+            </section>
+
+            <!-- ─────────────────────────────────
+                 EVENTS PAGE
+            ───────────────────────────────── -->
+            <section class="page" id="page-events">
+    <div class="section-header">
+        <div>
+            <h1 class="section-title">📅 Events</h1>
+            <p class="section-subtitle">Upcoming & past AI Club events</p>
+        </div>
+        <button class="btn btn-primary" id="create-event-btn" style="display:none;" onclick="showCreateEventModal()">+ Create</button>
+    </div>
+
+    <!-- Filter buttons -->
+    <div style="display:flex;gap:8px;margin-bottom:16px;">
+        <button class="btn btn-sm btn-outline active" id="filter-upcoming" onclick="filterEvents('upcoming')">🕐 Upcoming</button>
+        <button class="btn btn-sm btn-outline" id="filter-past" onclick="filterEvents('past')">📅 Past</button>
+        <button class="btn btn-sm btn-outline" id="filter-all" onclick="filterEvents('all')">📋 All Events</button>
+    </div>
+
+    <div class="grid grid-auto" id="events-grid">
+        <p style="color:var(--text-muted);">Loading events...</p>
+    </div>
+</section>
+
+            <!-- ─────────────────────────────────
+                 RESOURCES PAGE
+            ───────────────────────────────── -->
+            <section class="page" id="page-resources">
+                <div class="section-header">
+                    <div><h1 class="section-title">📚 Resources</h1></div>
+                    <button class="btn btn-primary" onclick="showAddResourceModal()">+ Add</button>
+                </div>
+                <div id="resource-categories" style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px;">
+                    <button class="btn btn-sm btn-outline active" onclick="filterResources('all',this)">All</button>
+                    <button class="btn btn-sm btn-outline" onclick="filterResources('Machine Learning',this)">ML</button>
+                    <button class="btn btn-sm btn-outline" onclick="filterResources('Deep Learning',this)">DL</button>
+                    <button class="btn btn-sm btn-outline" onclick="filterResources('Python',this)">Python</button>
+                    <button class="btn btn-sm btn-outline" onclick="filterResources('Web Development',this)">Web</button>
+                    <button class="btn btn-sm btn-outline" onclick="filterResources('DSA',this)">DSA</button>
+                    <button class="btn btn-sm btn-outline" onclick="filterResources('Research Papers',this)">Papers</button>
+                </div>
+                <div class="search-bar" style="margin-bottom:16px;max-width:100%;">
+                    <span class="search-icon">🔍</span>
+                    <input type="text" id="resource-search" oninput="renderResources()" placeholder="Search resources...">
+                </div>
+                <div class="grid grid-auto" id="resources-grid"></div>
+            </section>
+
+            <!-- ─────────────────────────────────
+                 PROJECTS PAGE
+            ───────────────────────────────── -->
+            <section class="page" id="page-projects">
+                <div class="section-header">
+                    <div><h1 class="section-title">🚀 Projects</h1></div>
+                    <button class="btn btn-primary" onclick="showAddProjectModal()">+ Add</button>
+                </div>
+                <div class="grid grid-auto" id="projects-grid"></div>
+            </section>
+
+            <!-- ─────────────────────────────────
+                 ANNOUNCEMENTS PAGE
+            ───────────────────────────────── -->
+            <section class="page" id="page-announcements">
+                <div class="section-header">
+                    <div><h1 class="section-title">📢 Announcements</h1></div>
+                    <button class="btn btn-primary" id="create-announcement-btn" style="display:none;" onclick="showCreateAnnouncementModal()">+ New</button>
+                </div>
+                <div id="announcements-list"></div>
+            </section>
+
+            <!-- ─────────────────────────────────
+                 BLOGS PAGE — Instagram Reels Style
+            ───────────────────────────────── -->
+            <section class="page" id="page-blogs">
+
+                <div class="section-header">
+                    <div>
+                        <h1 class="section-title">📝 Club Blog</h1>
+                        <p class="section-subtitle">Read and share AI knowledge</p>
+                    </div>
+                    <div style="display:flex;gap:8px;flex-wrap:wrap;">
+                        <div class="search-bar">
+                            <span class="search-icon">🔍</span>
+                            <input type="text" id="blog-search" oninput="renderBlogs()" placeholder="Search blogs...">
+                        </div>
+                        <button class="btn btn-primary" onclick="showCreateBlogModal()">✍️ Write Blog</button>
+                    </div>
+                </div>
+
+                <!-- Stories Strip -->
+                <div id="blog-stories-strip" class="blog-stories-strip"></div>
+
+                <!-- Filter Bar -->
+                <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px;align-items:center;justify-content:space-between;">
+                    <div id="blog-tags-filter" style="display:flex;gap:8px;flex-wrap:wrap;">
+                        <button class="btn btn-sm btn-outline active" onclick="filterBlogs('all', this)">All Posts</button>
+                        <button class="btn btn-sm btn-outline" onclick="filterBlogs('AI', this)">🤖 AI</button>
+                        <button class="btn btn-sm btn-outline" onclick="filterBlogs('Machine Learning', this)">🧠 ML</button>
+                        <button class="btn btn-sm btn-outline" onclick="filterBlogs('Deep Learning', this)">🔬 DL</button>
+                        <button class="btn btn-sm btn-outline" onclick="filterBlogs('Python', this)">🐍 Python</button>
+                        <button class="btn btn-sm btn-outline" onclick="filterBlogs('Research', this)">📄 Research</button>
+                        <button class="btn btn-sm btn-outline" onclick="filterBlogs('Tutorial', this)">📖 Tutorial</button>
+                    </div>
+                    <div class="date-filter-container">
+                        <label style="font-size:0.85rem;color:var(--text-secondary);">📅 Filter by date:</label>
+                        <input type="date" id="blog-date-filter" onchange="filterBlogsByDate()">
+                        <button class="btn btn-sm btn-ghost" onclick="clearDateFilter()" id="clear-date-btn" style="display:none;">✕ Clear</button>
+                    </div>
+                </div>
+
+                <!-- Featured Blog -->
+                <div id="featured-blog" class="card" style="margin-bottom:24px;background:linear-gradient(135deg,var(--bg-card),var(--bg-tertiary));"></div>
+
+                <!-- Reels Grid — rendered by blog.js using .reel-card classes -->
+                <div class="blog-reels-grid" id="blogs-grid"></div>
+
+            </section>
+
+            <!-- ─────────────────────────────────
+                 PROFILE PAGE
+            ───────────────────────────────── -->
+            <section class="page" id="page-profile">
+                <div class="profile-header card" style="margin-bottom:24px;">
+                    <div class="profile-avatar-large" id="profile-avatar-lg">?</div>
+                    <div style="flex:1;">
+                        <h2 id="profile-name" style="font-family:var(--font-display);font-weight:800;letter-spacing:-0.02em;">User</h2>
+                        <p id="profile-email" style="color:var(--text-muted);font-size:0.9rem;margin:4px 0;">email</p>
+                        <p id="profile-bio" style="color:var(--text-secondary);font-size:0.9rem;margin-bottom:10px;">No bio</p>
+                        <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
+                            <span class="badge badge-member" id="profile-role-badge">Member</span>
+                            <span id="profile-branch" style="font-size:0.8rem;color:var(--text-muted);"></span>
+                            <span id="profile-year" style="font-size:0.8rem;color:var(--text-muted);"></span>
+                        </div>
+                        <div id="profile-skills" style="margin-top:10px;display:flex;gap:6px;flex-wrap:wrap;"></div>
+                    </div>
+                    <button class="btn btn-outline" onclick="showEditProfileModal()">✏️ Edit</button>
+                </div>
+                <div style="display:flex;gap:8px;margin-bottom:16px;" id="profile-tabs">
+    <button class="btn btn-sm btn-primary" id="tab-blogs" onclick="loadProfileTab('blogs')">📝 My Blogs</button>
+    <button class="btn btn-sm btn-outline" id="tab-resources" onclick="loadProfileTab('resources')">📚 My Resources</button>
+    <button class="btn btn-sm btn-outline" id="tab-projects" onclick="loadProfileTab('projects')">🚀 My Projects</button>
+</div>
+<div id="profile-tab-content">
+    <p style="color:var(--text-muted);">Select a tab to view your content.</p>
+</div>
+            </section>
+
+            <!-- ─────────────────────────────────
+                 ADMIN PAGE
+            ───────────────────────────────── -->
+            <section class="page" id="page-admin">
+                <div class="section-header">
+                    <h1 class="section-title">⚙️ Admin Panel</h1>
+                </div>
+                <div class="grid grid-3" style="margin-bottom:24px;">
+                    <div class="card stat-card">
+                        <div class="stat-value" id="admin-stat-members">0</div>
+                        <div class="stat-label">Members</div>
+                    </div>
+                    <div class="card stat-card">
+                        <div class="stat-value" id="admin-stat-events">0</div>
+                        <div class="stat-label">Events</div>
+                    </div>
+                    <div class="card stat-card">
+                        <div class="stat-value" id="admin-stat-projects">0</div>
+                        <div class="stat-label">Projects</div>
+                    </div>
+                </div>
+                <div class="card">
+                    <h3 style="font-family:var(--font-display);font-weight:700;margin-bottom:16px;">Manage Members</h3>
+                    <div id="admin-members-list"></div>
+                </div>
+                
+                
+                
+                
+
+
+    <!-- Profile Tabs -->
+    <div style="display:flex;gap:8px;margin-bottom:16px;" id="profile-tabs">
+        <button class="btn btn-sm btn-primary" id="tab-blogs" onclick="loadProfileTab('blogs')">📝 My Blogs</button>
+        <button class="btn btn-sm btn-outline" id="tab-resources" onclick="loadProfileTab('resources')">📚 My Resources</button>
+        <button class="btn btn-sm btn-outline" id="tab-projects" onclick="loadProfileTab('projects')">🚀 My Projects</button>
+    </div>
+
+    <!-- Tab Content Area -->
+    <div id="profile-tab-content">
+        <p style="color:var(--text-muted);">Select a tab to view your content.</p>
+    </div>
+
+            </section>
+
+        </main>
+
+        <!-- ── Mobile Bottom Nav ── -->
+        <nav class="mobile-nav" id="mobile-nav">
+            <a href="#dashboard"     data-page="dashboard"     class="active"><span class="mnav-icon">📊</span>Home</a>
+            <a href="#members"       data-page="members"               ><span class="mnav-icon">👥</span>Members</a>
+            <a href="#events"        data-page="events"                ><span class="mnav-icon">📅</span>Events</a>
+            <a href="#resources"     data-page="resources"             ><span class="mnav-icon">📚</span>Learn</a>
+            <a href="#blogs"         data-page="blogs"                 ><span class="mnav-icon">📝</span>Blog</a>
+            <a href="/forum"><span class="mnav-icon">💬</span>Forum</a>
+            <a href="#profile"       data-page="profile"               ><span class="mnav-icon">👤</span>Profile</a>
+          
+        </nav>
+
+    </div><!-- /#app-container -->
+
+    <!-- ═══════════════════════════════════════════════
+         AUTH CONTAINER
+    ════════════════════════════════════════════════ -->
+    <div id="auth-container" style="display:none;">
+        <div class="auth-bg"></div>
+        <div class="auth-container" id="auth-inner">
+
+            <!-- Login Form -->
+            <div class="auth-card" id="auth-login-form">
+                <h2>🔐 Welcome Back</h2>
+                <p class="auth-subtitle">Sign in to AI Club</p>
+                <button class="google-btn" onclick="signInWithGithub()" style="margin-bottom:8px;">🐙 Sign in with GitHub</button>
+                
+              <!--
+                <div class="divider">or</div>
+                <button class="google-btn" onclick="signInWithFacebook()">📘 Sign in with Facebook</button>
+                -->
+                <div class="divider">or</div>
+                <div class="input-group">
+                    <label>Email</label>
+                    <input type="email" id="login-email" placeholder="you@college.edu">
+                </div>
+                <div class="input-group">
+                    <label>Password</label>
+                    <div class="password-wrapper">
+                        <input type="password" id="login-password">
+                        <button class="password-toggle" type="button" onclick="togglePassword('login-password',this)">👁️</button>
+                    </div>
+                </div>
+                <button class="btn btn-primary" style="width:100%;" onclick="handleLogin()">Sign In</button>
+                <p style="text-align:center;margin-top:12px;font-size:0.875rem;"><a href="#" onclick="showAuthForm('forgot')">Forgot password?</a></p>
+                <p style="text-align:center;font-size:0.875rem;">New? <a href="#" onclick="showAuthForm('register')">Sign up</a></p>
+            </div>
+
+            <!-- Register Form -->
+            <div class="auth-card" id="auth-register-form" style="display:none;">
+                <h2>🚀 Join AI Club</h2>
+                <p class="auth-subtitle">Create account</p>
+                <button class="google-btn" onclick="signInWithGithub()" style="margin-bottom:8px;">🐙 Sign in with GitHub</button>
+                <!--
+                <div class="divider">or</div>
+                <button class="google-btn" onclick="signInWithFacebook()">📘 Sign in with Facebook</button>
+                -->
+                <div class="divider">or</div>
+                <div class="input-group"><label>Name</label><input type="text" id="register-name"></div>
+                <div class="input-group"><label>Email</label><input type="email" id="register-email"></div>
+                <div class="input-group">
+                    <label>Password</label>
+                    <div class="password-wrapper">
+                        <input type="password" id="register-password">
+                        <button class="password-toggle" type="button" onclick="togglePassword('register-password',this)">👁️</button>
+                    </div>
+                </div>
+                <button class="btn btn-primary" style="width:100%;" onclick="handleRegister()">Create Account</button>
+                <p style="text-align:center;margin-top:12px;font-size:0.875rem;">Already have an account? <a href="#" onclick="showAuthForm('login')">Sign in</a></p>
+            </div>
+
+            <!-- Forgot Password Form -->
+            <div class="auth-card" id="auth-forgot-form" style="display:none;">
+                <h2>🔑 Reset Password</h2>
+                <p class="auth-subtitle">Enter your email</p>
+                <div class="input-group"><label>Email</label><input type="email" id="forgot-email"></div>
+                <button class="btn btn-primary" style="width:100%;" onclick="handleForgotPassword()">Send Reset Link</button>
+                <p style="text-align:center;margin-top:12px;font-size:0.875rem;"><a href="#" onclick="showAuthForm('login')">Back to sign in</a></p>
+            </div>
+
+        </div>
+    </div><!-- /#auth-container -->
+
+    <!-- Modal Container -->
+    <div id="modal-container"></div>
+
+    <!-- ── JavaScript — load order preserved ── -->
+    <script src="{{ url_for('static', filename='js/supabase-config.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/utils.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/auth.js') }}"></script>
+     <script src="{{ url_for('static', filename='js/data.js') }}?v=2"></script>
+    <script src="{{ url_for('static', filename='js/blog.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/admin.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+   
+
+    <!-- ── Design Enhancement Script ── -->
+    <script>
+    (function() {
+        /* ── Mirror stat values into the new pills ─────────────────────────
+           JS in app.js/data.js writes to #stat-members etc.
+           We observe those and mirror the values into the visible pills.
+        ─────────────────────────────────────────────────────────────────── */
+        const MIRROR_IDS = ['stat-members','stat-events','stat-projects','stat-resources'];
+
+        function mirrorStats() {
+            MIRROR_IDS.forEach(function(id) {
+                var src = document.getElementById(id + '-hidden');
+                if (!src) return;
+                // if JS writes to the hidden ones, nothing to mirror
+                // but if JS writes to the originals we need to redirect them
+            });
+        }
+
+        /* Intercept textContent writes to the original stat elements
+           and also write to the pill elements */
+        function proxyStatEl(id) {
+            var el = document.getElementById(id);
+            if (!el || el._proxied) return;
+            el._proxied = true;
+            var observer = new MutationObserver(function(mutations) {
+                mutations.forEach(function(m) {
+                    if (m.type === 'childList' || m.type === 'characterData') {
+                        var pill = document.getElementById(id);
+                        // pill IS the element; the original IDs now live in the pills
+                    }
+                });
+            });
+            observer.observe(el, { childList: true, characterData: true, subtree: true });
+        }
+
+        /* ── Blog Stories — auto-populate from blog data ─────────────────
+           Called after blog data is available.
+           We hook into the DOM ready and watch for renderBlogs to finish.
+        ─────────────────────────────────────────────────────────────────── */
+        function buildStories() {
+            var STRIP_IDS = ['blog-stories-strip', 'today-blogs-stories'];
+            var grid = document.getElementById('blogs-grid');
+            if (!grid) return;
+
+            // Gather unique authors from reel cards (built by blog.js)
+            var seen = {};
+            var cards = grid.querySelectorAll('[data-author], .reel-card');
+            var authors = [];
+
+            // Fallback: scan for author text in reel-author-name spans
+            grid.querySelectorAll('.reel-author-name').forEach(function(el) {
+                var name = el.textContent.trim();
+                if (name && !seen[name]) {
+                    seen[name] = true;
+                    authors.push(name);
+                }
+            });
+
+            if (authors.length === 0) return;
+
+            var html = authors.slice(0, 10).map(function(name, i) {
+                var initials = name.split(' ').map(function(w){return w[0]||'';}).join('').slice(0,2).toUpperCase();
+                return '<div class="story-bubble" onclick="filterBlogs(\'all\',null)">' +
+                    '<div class="story-ring' + (i > 5 ? ' seen' : '') + '">' +
+                    '<div class="story-avatar">' + initials + '</div></div>' +
+                    '<span class="story-label">' + name.split(' ')[0] + '</span></div>';
+            }).join('');
+
+            STRIP_IDS.forEach(function(sid) {
+                var strip = document.getElementById(sid);
+                if (strip) strip.innerHTML = html || '';
+            });
+        }
+
+        /* Watch blogs-grid for changes to rebuild stories */
+        var blogsGrid = null;
+        function watchBlogs() {
+            blogsGrid = document.getElementById('blogs-grid');
+            if (!blogsGrid) { setTimeout(watchBlogs, 600); return; }
+            var obs = new MutationObserver(function() { buildStories(); });
+            obs.observe(blogsGrid, { childList: true, subtree: false });
+        }
+
+        /* ── Theme toggle label fix ── */
+        function syncThemeLabel() {
+            var btn = document.getElementById('theme-toggle-btn');
+            if (!btn) return;
+            var isDark = document.documentElement.getAttribute('data-theme') === 'dark'
+                      || document.body.getAttribute('data-theme') === 'dark';
+            btn.textContent = isDark ? '☀️ Light Mode' : '🌙 Dark Mode';
+        }
+
+        /* Patch toggleTheme if it exists */
+        document.addEventListener('DOMContentLoaded', function() {
+            watchBlogs();
+            syncThemeLabel();
+
+            /* Also fix any broken active state on filter buttons */
+            document.querySelectorAll('#blog-tags-filter .btn, #resource-categories .btn').forEach(function(btn) {
+                btn.addEventListener('click', function() {
+                    var parent = btn.closest('#blog-tags-filter, #resource-categories');
+                    if (parent) {
+                        parent.querySelectorAll('.btn').forEach(function(b){ b.classList.remove('active'); });
+                    }
+                    btn.classList.add('active');
+                });
+            });
+
+            /* Patch toggleTheme to also update label */
+            if (typeof window.toggleTheme === 'function') {
+                var _orig = window.toggleTheme;
+                window.toggleTheme = function() {
+                    _orig.apply(this, arguments);
+                    syncThemeLabel();
+                };
+            }
+        });
+
+    }());
+    </script>
+
+</body>
+</html>

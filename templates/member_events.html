@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Member Events – AI Club</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+    <div id="toast-container"></div>
+    <nav style="background:var(--bg-secondary);padding:12px 24px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:16px;">
+        <a href="/" style="text-decoration:none;color:var(--text-primary);font-weight:700;">← Back to AI Club</a>
+        <span style="flex:1;"></span>
+        <button class="btn btn-ghost btn-sm" onclick="handleLogout()">🚪 Logout</button>
+    </nav>
+
+    <div style="max-width:1000px;margin:0 auto;padding:32px 20px;">
+        <div class="section-header">
+            <div>
+                <h1 class="section-title">🌟 Member‑Only Events</h1>
+                <p class="section-subtitle">Exclusive events for official members</p>
+            </div>
+            <div style="display:flex;gap:8px;">
+                <button class="btn btn-sm btn-outline active" id="filter-all-member" onclick="filterMemberEvents('all')">All Events</button>
+                <button class="btn btn-sm btn-outline" id="filter-memberonly" onclick="filterMemberEvents('member_only')">🔒 Member Only</button>
+            </div>
+        </div>
+        <div class="grid grid-auto" id="member-events-grid">
+            <p style="color:var(--text-muted);">Loading events...</p>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/supabase-config.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/utils.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/member-pages.js') }}"></script>
+</body>
+</html>

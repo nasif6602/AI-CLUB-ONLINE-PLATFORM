@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Help Center – AI Club</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    
+    <style>
+        /* ===== HELP CENTER SPECIFIC STYLES ===== */
+        :root {
+            --help-max-width: 900px;
+            --help-sidebar-width: 280px;
+            --help-toc-bg: var(--card-bg, #ffffff);
+            --help-toc-border: var(--border-color, #e2e8f0);
+            --help-section-bg: var(--card-bg, #ffffff);
+            --help-section-border: var(--border-color, #e2e8f0);
+            --help-heading-color: var(--text-primary, #0f172a);
+            --help-text-color: var(--text-secondary, #475569);
+            --help-muted-color: var(--text-muted, #64748b);
+            --help-link-color: var(--primary, #3b82f6);
+            --help-link-hover: var(--primary-dark, #2563eb);
+            --help-code-bg: var(--bg-tertiary, #f8fafc);
+            --help-shadow: 0 4px 12px var(--shadow-color, rgba(0,0,0,0.05));
+            --help-radius: 12px;
+            --help-transition: all 0.2s ease;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        
+        body {
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            background: var(--bg-primary, #f8fafc);
+            color: var(--text-primary, #0f172a);
+            line-height: 1.6;
+            padding: 24px 16px;
+            transition: var(--help-transition);
+        }
+
+        .page {
+            max-width: var(--help-max-width);
+            margin: 0 auto;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 14px;
+            margin-bottom: 24px;
+            color: var(--help-link-color);
+            text-decoration: none;
+            font-weight: 500;
+            border-radius: 8px;
+            background: var(--help-toc-bg);
+            border: 1px solid var(--help-toc-border);
+            transition: var(--help-transition);
+        }
+        .back-link:hover {
+            background: var(--help-link-color);
+            color: #ffffff;
+            transform: translateX(-2px);
+            box-shadow: 0 4px 12px rgba(59,130,246,0.2);
+        }
+
+        h1 {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--help-heading-color);
+            margin-bottom: 8px;
+            line-height: 1.3;
+        }
+
+        .page > p {
+            color: var(--help-text-color);
+            margin-bottom: 32px;
+            font-size: 1.05rem;
+        }
+
+        /* ===== TABLE OF CONTENTS ===== */
+        .toc {
+            position: sticky;
+            top: 24px;
+            background: var(--help-toc-bg);
+            border: 1px solid var(--help-toc-border);
+            border-radius: var(--help-radius);
+            padding: 20px;
+            margin-bottom: 40px;
+            box-shadow: var(--help-shadow);
+            z-index: 10;
+        }
+
+        .toc h3 {            font-size: 1rem;
+            font-weight: 600;
+            color: var(--help-heading-color);
+            margin-bottom: 16px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid var(--help-toc-border);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .toc ul {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .toc a {
+            display: block;
+            padding: 8px 12px;
+            color: var(--help-text-color);
+            text-decoration: none;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: var(--help-transition);
+        }
+
+        .toc a:hover,
+        .toc a.active {
+            background: var(--help-link-color);
+            color: #ffffff;
+            transform: translateX(4px);
+        }
+
+        /* ===== HELP SECTIONS ===== */
+        .help-section {
+            background: var(--help-section-bg);
+            border: 1px solid var(--help-section-border);
+            border-radius: var(--help-radius);
+            padding: 24px;
+            margin-bottom: 24px;
+            box-shadow: var(--help-shadow);
+            scroll-margin-top: 100px;
+            transition: var(--help-transition);
+        }
+
+        .help-section:hover {
+            border-color: var(--help-link-color);            transform: translateY(-2px);
+            box-shadow: 0 8px 24px var(--shadow-color, rgba(0,0,0,0.1));
+        }
+
+        .help-section h2 {
+            font-size: 1.35rem;
+            font-weight: 600;
+            color: var(--help-heading-color);
+            margin-bottom: 16px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid var(--help-section-border);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .help-section h3 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--help-heading-color);
+            margin: 20px 0 12px;
+        }
+
+        .help-section p {
+            color: var(--help-text-color);
+            margin-bottom: 12px;
+            font-size: 0.95rem;
+        }
+
+        .help-section ul {
+            margin: 12px 0 16px 24px;
+            color: var(--help-text-color);
+        }
+
+        .help-section li {
+            margin-bottom: 8px;
+            font-size: 0.95rem;
+        }
+
+        .help-section strong {
+            color: var(--help-heading-color);
+            font-weight: 600;
+        }
+
+        .help-section a {
+            color: var(--help-link-color);
+            text-decoration: none;
+            font-weight: 500;
+            transition: var(--help-transition);
+        }        .help-section a:hover {
+            color: var(--help-link-hover);
+            text-decoration: underline;
+        }
+
+        /* ===== CONTACT CARD ===== */
+        .contact-card {
+            background: var(--help-code-bg);
+            border: 1px solid var(--help-section-border);
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 16px;
+        }
+
+        .contact-card p {
+            margin-bottom: 10px;
+        }
+
+        .contact-card a {
+            color: var(--help-link-color);
+            word-break: break-all;
+        }
+
+        .contact-card ul {
+            margin-left: 20px;
+            margin-top: 8px;
+        }
+
+        /* ===== CODE/SNIPPET STYLING ===== */
+        code, .help-section code {
+            font-family: 'JetBrains Mono', monospace;
+            background: var(--help-code-bg);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.9em;
+            color: var(--help-heading-color);
+        }
+
+        /* ===== SMOOTH SCROLL & ANCHOR HIGHLIGHT ===== */
+        html { scroll-behavior: smooth; }
+
+        .help-section:target {
+            border-color: var(--help-link-color);
+            box-shadow: 0 0 0 3px var(--primary-light, rgba(59,130,246,0.15));
+            animation: highlight 0.5s ease;
+        }
+
+        @keyframes highlight {
+            0% { background: transparent; }
+            50% { background: var(--primary-light, rgba(59,130,246,0.08)); }            100% { background: transparent; }
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 768px) {
+            .toc {
+                position: static;
+                top: auto;
+            }
+            .toc ul {
+                flex-wrap: wrap;
+                gap: 6px;
+            }
+            .toc a {
+                font-size: 0.85rem;
+                padding: 6px 10px;
+            }
+            .help-section {
+                padding: 20px;
+            }
+            h1 { font-size: 1.5rem; }
+            .help-section h2 { font-size: 1.2rem; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+            html { scroll-behavior: auto; }
+        }
+    </style>
+</head>
+<body>
+    <div class="page active" id="page-dashboard">
+        <a href="/" class="back-link">← Back to Dashboard</a>
+        <h1>📚 AI Club Help Center</h1>
+        <p>Complete guide to using the platform. Click any section to jump directly.</p>
+
+        <!-- Table of Contents -->
+        <nav class="toc" aria-label="Table of Contents">
+            <h3>📑 Table of Contents</h3>
+            <ul>
+                <li><a href="#dashboard">📊 Dashboard</a></li>
+                <li><a href="#members">👥 Members</a></li>
+                <li><a href="#events">📅 Events</a></li>
+                <li><a href="#resources">📚 Resources</a></li>
+                <li><a href="#projects">🚀 Projects</a></li>
+                <li><a href="#announcements">📢 Announcements</a></li>                <li><a href="#blog">📝 Blog</a></li>
+                <li><a href="#forum">💬 Forum (Q&A)</a></li>
+                <li><a href="#membership">💳 Membership</a></li>
+                <li><a href="#profile">👤 Profile</a></li>
+                <li><a href="#admin">⚙️ Admin Panel</a></li>
+                <li><a href="#contact">📧 Contact & Bug Reporting</a></li>
+            </ul>
+        </nav>
+
+        <!-- Dashboard -->
+        <section class="help-section" id="dashboard">
+            <h2>📊 Dashboard</h2>
+            <p>The dashboard is your home screen. It shows:</p>
+            <ul>
+                <li><strong>Club statistics</strong> – total members, events, projects, resources.</li>
+                <li><strong>Latest announcements</strong> – pinned updates from admins.</li>
+                <li><strong>Upcoming events</strong> – next events with dates.</li>
+                <li><strong>Today's Blogs</strong> – scrollable stories of blogs published today. Tap to read.</li>
+                <li><strong>Recent Blog Posts</strong> – last 4 blog posts.</li>
+            </ul>
+            <p><strong>Who can see it?</strong> All logged‑in users.</p>
+        </section>
+
+        <!-- Members -->
+        <section class="help-section" id="members">
+            <h2>👥 Members</h2>
+            <p>Browse all club members, search by name/email/skills, and view their public profiles.</p>
+            <ul>
+                <li>Click a member's <strong>View Profile</strong> button to see their blogs, resources, and projects.</li>
+            </ul>
+            <p><strong>Who can access?</strong> All authenticated users.</p>
+        </section>
+
+        <!-- Events -->
+        <section class="help-section" id="events">
+            <h2>📅 Events</h2>
+            <p>View upcoming and past events. Use the filter buttons (<strong>Upcoming</strong>, <strong>Past</strong>, <strong>All</strong>) to switch.</p>
+            <ul>
+                <li><strong>Creating an event</strong> – only admins can click <strong>+ Create</strong> and fill in the details.</li>
+                <li><strong>Registering</strong> – if an event has a registration link, click <strong>Register</strong> to open it.</li>
+            </ul>
+            <p><strong>Permissions:</strong> Anyone can view, only admins can create events.</p>
+        </section>
+
+        <!-- Resources -->
+        <section class="help-section" id="resources">
+            <h2>📚 Resources</h2>
+            <p>Share and discover AI/ML learning materials. Filter by category (Machine Learning, Python, etc.) and search.</p>
+            <ul>
+                <li><strong>Adding a resource</strong> – any member can click <strong>+ Add</strong>, provide title, category, link, and description.</li>                <li>Click <strong>🔗 Open</strong> to visit the resource.</li>
+            </ul>
+            <p><strong>Who can add?</strong> All authenticated users.</p>
+        </section>
+
+        <!-- Projects -->
+        <section class="help-section" id="projects">
+            <h2>🚀 Projects</h2>
+            <p>Showcase your AI projects. Include GitHub links, demo links, technologies used, and team members.</p>
+            <ul>
+                <li><strong>Add a project</strong> – click <strong>+ Add</strong>, fill in the fields, and submit.</li>
+                <li><strong>Viewing</strong> – everyone can see projects. Click the <strong>GitHub</strong> or <strong>Demo</strong> buttons to open external links.</li>
+            </ul>
+            <p><strong>Permissions:</strong> All members can create and view.</p>
+        </section>
+
+        <!-- Announcements -->
+        <section class="help-section" id="announcements">
+            <h2>📢 Announcements</h2>
+            <p>Important updates from the admin team. Only admins can post, but everyone can read.</p>
+            <ul>
+                <li><strong>Creating</strong> – admins see a <strong>+ New</strong> button; fill in title and description.</li>
+            </ul>
+        </section>
+
+        <!-- Blog -->
+        <section class="help-section" id="blog">
+            <h2>📝 Blog</h2>
+            <p>A space to write and share articles on AI topics. Features a rich editor, reactions, and comments.</p>
+            <h3>Writing a blog</h3>
+            <ul>
+                <li>Navigate to <strong>Blog</strong> and click <strong>✍️ Write Blog</strong>.</li>
+                <li>Fill in title, optional cover image URL, excerpt, tags (comma‑separated), and content.</li>
+                <li>Check <strong>Publish immediately</strong> or save as a draft (unpublished).</li>
+            </ul>
+            <h3>Reading & interacting</h3>
+            <ul>
+                <li>Click any blog card to open the full view.</li>
+                <li>Use the emoji reactions (🔥👏💡❤️😮) to react – you can only react once per type.</li>
+                <li>Scroll down to the comments section, write a comment, and post. You can edit or delete your own comments.</li>
+                <li>Admins can delete any comment or blog if necessary.</li>
+            </ul>
+            <p><strong>Views:</strong> Each unique user (per browser) counts as one view, preventing self‑inflation.</p>
+        </section>
+
+        <!-- Forum -->
+        <section class="help-section" id="forum">
+            <h2>💬 Forum (Q&A)</h2>
+            <p>A WhatsApp‑style discussion area. Ask questions, share knowledge, and help each other in real time.</p>
+            <h3>Using the forum</h3>            <ul>
+                <li>Select a thread from the left sidebar to open the chat.</li>
+                <li>Type your message at the bottom and press <strong>Enter</strong> or click <strong>Send</strong>.</li>
+                <li>Messages from others appear instantly (or within 2 seconds).</li>
+                <li>You can delete your own messages; admins can delete any message or entire thread.</li>
+            </ul>
+            <h3>Creating a new thread</h3>
+            <ul>
+                <li>Click <strong>+ New</strong> in the threads sidebar.</li>
+                <li>Give it a title and choose a category (General, AI, Help, etc.).</li>
+                <li>The thread will appear, and anyone can join the conversation.</li>
+            </ul>
+            <p><strong>Who can participate?</strong> All logged‑in members.</p>
+        </section>
+
+        <!-- Membership -->
+        <section class="help-section" id="membership">
+            <h2>💳 Membership</h2>
+            <p>Become an official member to unlock exclusive events, resources, and a member directory.</p>
+            <h3>How to join</h3>
+            <ul>
+                <li>Go to the <strong>Membership</strong> page from the sidebar.</li>
+                <li>Scan the QR code or use the UPI ID to pay the membership fee (₹299/year).</li>
+                <li>After payment, enter your transaction ID (UTR) and optionally upload a screenshot.</li>
+                <li>Submit – your request will show as <strong>pending</strong> until an admin approves it.</li>
+                <li>Once approved, you'll receive a confirmation email and gain access to member‑only areas.</li>
+            </ul>
+            <p><strong>After approval:</strong> New sidebar links appear: <strong>Member Events</strong>, <strong>Member Resources</strong>, <strong>Member Directory</strong>.</p>
+        </section>
+
+        <!-- Profile -->
+        <section class="help-section" id="profile">
+            <h2>👤 Profile</h2>
+            <p>Your personal profile displays your info and all content you've created.</p>
+            <ul>
+                <li><strong>Edit profile</strong> – click <strong>✏️ Edit</strong> to update name, branch, year, bio, and skills.</li>
+                <li>Use the tabs below your profile to view your <strong>Blogs</strong>, <strong>Resources</strong>, and <strong>Projects</strong>.</li>
+            </ul>
+        </section>
+
+        <!-- Admin Panel -->
+        <section class="help-section" id="admin">
+            <h2>⚙️ Admin Panel</h2>
+            <p>Only accessible to users with the <strong>admin</strong> role. Provides management tools.</p>
+            <h3>Capabilities</h3>
+            <ul>
+                <li><strong>Manage members</strong> – promote/demote users to admin.</li>
+                <li><strong>Review membership requests</strong> – approve or reject payment verifications.</li>
+                <li><strong>Create events & announcements</strong> – buttons appear only for admins.</li>
+                <li><strong>Delete inappropriate content</strong> – blogs, comments, forum messages.</li>            </ul>
+            <p><strong>How to become an admin?</strong> Another admin must promote you from the Admin Panel.</p>
+        </section>
+
+        <!-- Contact & Bug Reporting -->
+        <section class="help-section" id="contact">
+            <h2>📧 Contact & Bug Reporting</h2>
+            <div class="contact-card">
+                <p><strong>Admin Email:</strong> <a href="mailto:nasifabdul6@gmail.com">nasifabdul6@gmail.com</a></p>
+                <p><strong>Report a bug:</strong> Send an email with:</p>
+                <ul>
+                    <li>Your name and membership status</li>
+                    <li>What you were trying to do</li>
+                    <li>What went wrong (error message or unexpected behavior)</li>
+                    <li>Screenshots, if possible</li>
+                </ul>
+                <p style="margin-top:12px;"><strong>Response time:</strong> We aim to reply within 24 hours.</p>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        // ===== ACTIVE TOC HIGHLIGHT ON SCROLL =====
+        document.addEventListener('DOMContentLoaded', () => {
+            const sections = document.querySelectorAll('.help-section');
+            const tocLinks = document.querySelectorAll('.toc a');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const id = entry.target.getAttribute('id');
+                        tocLinks.forEach(link => {
+                            link.classList.remove('active');
+                            if (link.getAttribute('href') === `#${id}`) {
+                                link.classList.add('active');
+                            }
+                        });
+                    }
+                });
+            }, { threshold: 0.3, rootMargin: '-100px 0px -60% 0px' });
+
+            sections.forEach(section => observer.observe(section));
+
+            // ===== SMOOTH SCROLL FOR TOC LINKS =====
+            tocLinks.forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const target = document.querySelector(link.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({ behavior: 'smooth', block: 'start' });                        history.pushState(null, '', link.getAttribute('href'));
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

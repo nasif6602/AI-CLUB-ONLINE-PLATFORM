@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Q&A Forum – AI Club</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <style>
+        /* Forum WhatsApp‑style layout */
+        .forum-container { display:flex; height:calc(100vh - 60px); max-width:1200px; margin:0 auto; }
+        .threads-sidebar {
+            width:300px; border-right:1px solid var(--border); overflow-y:auto; flex-shrink:0;
+            background:var(--bg-secondary); padding:16px;
+        }
+        .threads-sidebar h3 { margin-bottom:16px; }
+        .thread-item {
+            padding:10px 12px; border-radius:var(--radius-sm); cursor:pointer;
+            margin-bottom:4px; transition:background var(--transition);
+        }
+        .thread-item:hover, .thread-item.active { background:var(--bg-tertiary); }
+        .thread-item .title { font-weight:600; }
+        .thread-item .meta { font-size:0.75rem; color:var(--text-muted); }
+        .chat-area {
+            flex:1; display:flex; flex-direction:column; background:var(--bg-primary);
+        }
+        .chat-header {
+            padding:12px 16px; border-bottom:1px solid var(--border);
+            background:var(--bg-secondary); font-weight:600;
+            display:flex; justify-content:space-between; align-items:center;
+        }
+        .messages-container {
+            flex:1; overflow-y:auto; padding:16px;
+            background:var(--bg-primary);
+        }
+        .message-row {
+            display:flex; margin-bottom:12px; align-items:flex-end;
+        }
+        .message-row.sent { justify-content:flex-end; }
+        .message-bubble {
+            max-width:70%; padding:10px 14px; border-radius:18px;
+            word-wrap:break-word; position:relative;
+        }
+        .message-row.received .message-bubble {
+            background:var(--bg-tertiary); color:var(--text-primary);
+        }
+        .message-row.sent .message-bubble {
+            background:var(--accent); color:#fff;
+        }
+        .message-sender { font-size:0.75rem; font-weight:600; margin-bottom:4px; }
+        .message-time { font-size:0.65rem; opacity:0.7; margin-top:4px; }
+        .message-input-area {
+            display:flex; gap:8px; padding:12px 16px; border-top:1px solid var(--border);
+            background:var(--bg-secondary);
+        }
+        .message-input-area input {
+            flex:1; padding:10px 14px; border-radius:24px; border:1px solid var(--border);
+            background:var(--bg-primary); color:var(--text-primary);
+            font-family:inherit; font-size:0.9rem; outline:none;
+        }
+        @media (max-width: 768px) {
+            .forum-container { flex-direction:column; }
+            .threads-sidebar { width:100%; height:40vh; border-right:none; border-bottom:1px solid var(--border); }
+            .chat-area { height:60vh; }
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+    <div id="toast-container"></div>
+    <nav style="background:var(--bg-secondary);padding:12px 24px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:16px;">
+        <a href="/" style="text-decoration:none;color:var(--text-primary);font-weight:700;">← Back to AI Club</a>
+        <span style="flex:1;"></span>
+        <button class="btn btn-ghost btn-sm" onclick="handleLogout()">🚪 Logout</button>
+    </nav>
+
+    <div class="forum-container" id="forum-container">
+        <!-- Threads Sidebar -->
+        <div class="threads-sidebar" id="threads-sidebar">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
+                <h3 style="margin:0;">💬 Discussions</h3>
+                <button class="btn btn-sm btn-primary" onclick="showNewThreadModal()">+ New</button>
+            </div>
+            <div id="threads-list"><p style="color:var(--text-muted);">Loading threads...</p></div>
+        </div>
+
+        <!-- Chat Area -->
+        <div class="chat-area" id="chat-area">
+            <div class="chat-header" id="chat-header">
+                <span>Select a thread to start chatting</span>
+            </div>
+            <div class="messages-container" id="messages-container">
+                <p style="text-align:center;color:var(--text-muted);padding-top:40px;">👋 Welcome to the AI Club Forum!<br>Ask questions, share knowledge, and help each other.</p>
+            </div>
+            <div class="message-input-area" id="message-input-area" style="display:none;">
+                <input type="text" id="message-input" placeholder="Type a message..." onkeypress="if(event.key==='Enter')sendMessage()">
+                <button class="btn btn-primary btn-sm" onclick="sendMessage()">Send</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="modal-container"></div>
+
+    <script src="{{ url_for('static', filename='js/supabase-config.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/utils.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/forum.js') }}"></script>
+</body>
+</html>
