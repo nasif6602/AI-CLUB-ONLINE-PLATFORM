@@ -37,7 +37,8 @@ function updateUIForUser() {
     document.getElementById('sidebar-avatar').textContent = initial;
     document.getElementById('sidebar-username').textContent = name;
     document.getElementById('sidebar-userrole').textContent = userProfile?.role === 'admin' ? 'Admin' : 'Member';
-    document.getElementById('dash-username').textContent = name;
+    const firstName = name.split(" ")[0];
+    document.getElementById('dash-username').textContent = firstName;
     document.getElementById('profile-name').textContent = name;
     document.getElementById('profile-email').textContent = currentUser?.email || '';
     document.getElementById('profile-bio').textContent = userProfile?.bio || 'No bio';
